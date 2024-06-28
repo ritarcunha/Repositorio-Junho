@@ -3,8 +3,10 @@ package io.codeforall.bootcamp.javabank.application;
 import io.codeforall.bootcamp.javabank.application.operations.BalanceOperation;
 import io.codeforall.bootcamp.javabank.application.operations.NewAccountOperation;
 import io.codeforall.bootcamp.javabank.application.operations.Operation;
+import io.codeforall.bootcamp.javabank.application.operations.controllers.*;
 import io.codeforall.bootcamp.javabank.application.operations.transaction.DepositOperation;
 import io.codeforall.bootcamp.javabank.application.operations.transaction.WithdrawOperation;
+import io.codeforall.bootcamp.javabank.application.operations.views.LoginView;
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.integer.IntegerSetInputScanner;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
@@ -20,9 +22,11 @@ public class BankApplication {
 
     private Prompt prompt;
     private MenuInputScanner mainMenu;
-    private Map<Integer, Operation> operationsMap;
+    private Map<Integer, Controller> controllersMap;
 
     private Bank bank;
+
+
     private int accessingCustomerId;
 
     /**
@@ -35,6 +39,9 @@ public class BankApplication {
         this.prompt = new Prompt(System.in, System.out);
     }
 
+    public void setAccessingCustomerId(int accessingCustomerId) {
+        this.accessingCustomerId = accessingCustomerId;
+    }
     /**
      * Gets the prompt used for the UI
      *
@@ -68,22 +75,24 @@ public class BankApplication {
     public void start() {
 
         mainMenu = buildMainMenu();
-
-        accessingCustomerId = scanCustomerId();
-        operationsMap = buildOperationsMap();
-        menuLoop();
+        LoginController loginController=new LoginController(this);
+        loginController.execute();
+        loginController.nextController();
+        //accessingCustomerId = scanCustomerId();
+        controllersMap = buildControllersMap();
+       //menuLoop();
     }
 
     private void menuLoop() {
 
-        int userChoice = prompt.getUserInput(mainMenu);
+       /* int userChoice = prompt.getUserInput(mainMenu);
 
         if (userChoice == UserOptions.QUIT.getOption()) {
             return;
         }
 
         operationsMap.get(userChoice).execute();
-        menuLoop();
+        menuLoop();*/
     }
 
     private int scanCustomerId() {
@@ -104,13 +113,13 @@ public class BankApplication {
         return mainMenu;
     }
 
-    private Map<Integer, Operation> buildOperationsMap() {
+    private Map<Integer, Controller> buildControllersMap() {
 
-        Map<Integer, Operation> map = new HashMap<>();
-        map.put(UserOptions.GET_BALANCE.getOption(), new BalanceOperation(this));
-        map.put(UserOptions.DEPOSIT.getOption(), new DepositOperation(this));
-        map.put(UserOptions.WITHDRAW.getOption(), new WithdrawOperation(this));
-        map.put(UserOptions.OPEN_ACCOUNT.getOption(), new NewAccountOperation(this));
+        Map<Integer, Controller> map = new HashMap<>();
+        map.put(UserOptions.GET_BALANCE.getOption(),new BalanceController(this));
+        map.put(UserOptions.DEPOSIT.getOption(), new DepositController(this));
+        map.put(UserOptions.WITHDRAW.getOption(), new WithdrawController(this));
+        map.put(UserOptions.OPEN_ACCOUNT.getOption(), new NewAccountController(this));
 
         return map;
     }
