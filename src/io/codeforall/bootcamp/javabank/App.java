@@ -1,9 +1,12 @@
 package io.codeforall.bootcamp.javabank;
 
 import io.codeforall.bootcamp.javabank.application.BankApplication;
+import io.codeforall.bootcamp.javabank.controllers.LogInController;
 import io.codeforall.bootcamp.javabank.domain.Bank;
 import io.codeforall.bootcamp.javabank.domain.Customer;
 import io.codeforall.bootcamp.javabank.managers.AccountManager;
+
+import java.util.function.LongToIntFunction;
 
 public class App {
 
@@ -20,7 +23,11 @@ public class App {
         bank.addCustomer(c2);
         bank.addCustomer(c3);
 
-        BankApplication bankApplication = new BankApplication(bank);
-        bankApplication.start();
+        LogInController login = new LogInController(bank);
+
+        login.execute();
+
+        /*BankApplication bankApplication = new BankApplication(bank);
+        bankApplication.start();*/
     }
 }
