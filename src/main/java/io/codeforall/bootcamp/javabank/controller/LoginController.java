@@ -1,6 +1,8 @@
 package io.codeforall.bootcamp.javabank.controller;
 
+import io.codeforall.bootcamp.javabank.domain.Customer;
 import io.codeforall.bootcamp.javabank.model.Bank;
+import io.codeforall.bootcamp.javabank.services.CustomerService;
 import io.codeforall.bootcamp.javabank.view.LoginView;
 
 /**
@@ -36,7 +38,9 @@ public class LoginController extends AbstractController {
      * @param id the customer id
      */
     public void onLogin(int id) {
-        bank.setLoginCustomer(id);
+        bank.setLoginCustomer(id);// este metodo atualiza o Login do costumer
+
+        //Customer get(Integer id);
         nextController.init();
     }
 

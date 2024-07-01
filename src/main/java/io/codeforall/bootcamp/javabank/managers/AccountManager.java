@@ -41,9 +41,9 @@ public class AccountManager {
      * @param id     the id of the account
      * @param amount the amount to deposit
      */
-    public void deposit(int id, double amount) {
+    /*public void deposit(int id, double amount) {
         accountMap.get(id).credit(amount);
-    }
+    }*/
 
     /**
      * Perform an {@link Account} withdrawal if possible
@@ -51,7 +51,7 @@ public class AccountManager {
      * @param id     the id of the account
      * @param amount the amount to withdraw
      */
-    public void withdraw(int id, double amount) {
+    /*public void withdraw(int id, double amount) {
 
         Account account = accountMap.get(id);
 
@@ -60,7 +60,7 @@ public class AccountManager {
         }
 
         accountMap.get(id).debit(amount);
-    }
+    }*/
 
     /**
      * Performs a transfer between two {@link Account} if possible
@@ -69,7 +69,7 @@ public class AccountManager {
      * @param dstId  the destination account id
      * @param amount the amount to transfer
      */
-    public void transfer(int srcId, int dstId, double amount) {
+ /*public void transfer(int srcId, int dstId, double amount) {
 
         Account srcAccount = accountMap.get(srcId);
         Account dstAccount = accountMap.get(dstId);
@@ -79,5 +79,5 @@ public class AccountManager {
             srcAccount.debit(amount);
             dstAccount.credit(amount);
         }
-    }
+    }*/
 }
