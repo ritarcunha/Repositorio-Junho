@@ -1,6 +1,7 @@
 package io.codeforall.bootcamp.javabank.services;
 
-import io.codeforall.bootcamp.javabank.domain.account.Account;
+
+import io.codeforall.bootcamp.javabank.model.account.Account;
 
 public interface AccountService {
 

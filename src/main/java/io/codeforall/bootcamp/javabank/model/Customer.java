@@ -70,9 +70,9 @@ public class Customer {
      * @param id the id of the account
      * @return the account balance
      */
-    /*public double getBalance(int id) {
+    public double getBalance(int id) {
         return accounts.get(id).getBalance();
-    }*/
+    }
 
     /**
      * Gets the total customer balance
@@ -94,9 +94,9 @@ public class Customer {
      *
      * @param account the account to add
      */
-    /*public void addAccount(Account account) {//tambem ja copiei esta
+    public void addAccount(Account account) {//tambem ja copiei esta
         accounts.put(account.getId(), account);
-    }*/
+    }
 }
 
 

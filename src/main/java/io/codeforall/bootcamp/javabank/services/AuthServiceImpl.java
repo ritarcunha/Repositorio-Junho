@@ -1,6 +1,7 @@
 package io.codeforall.bootcamp.javabank.services;
 
-import io.codeforall.bootcamp.javabank.domain.Customer;
+
+import io.codeforall.bootcamp.javabank.model.Customer;
 
 import java.util.HashMap;
 import java.util.Set;

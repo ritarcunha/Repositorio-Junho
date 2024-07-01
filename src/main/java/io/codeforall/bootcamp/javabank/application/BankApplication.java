@@ -5,12 +5,11 @@ import io.codeforall.bootcamp.javabank.application.operations.NewAccountOperatio
 import io.codeforall.bootcamp.javabank.application.operations.Operation;
 import io.codeforall.bootcamp.javabank.application.operations.transaction.DepositOperation;
 import io.codeforall.bootcamp.javabank.application.operations.transaction.WithdrawOperation;
+import io.codeforall.bootcamp.javabank.model.Bank;
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.integer.IntegerSetInputScanner;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
-import io.codeforall.bootcamp.javabank.domain.Bank;
-import io.codeforall.bootcamp.javabank.application.Messages;
-import io.codeforall.bootcamp.javabank.application.UserOptions;
+
 
 import java.util.HashMap;
 import java.util.Map;

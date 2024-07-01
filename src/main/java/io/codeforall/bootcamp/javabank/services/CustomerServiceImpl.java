@@ -1,20 +1,21 @@
 package io.codeforall.bootcamp.javabank.services;
 
-import io.codeforall.bootcamp.javabank.domain.Customer;
+
+import io.codeforall.bootcamp.javabank.model.Customer;
 import io.codeforall.bootcamp.javabank.model.account.Account;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class CustomerServiceImpl implements  CustomerService{
     private HashMap<Integer, Customer> customers;
     private Map<Integer, Account> accounts;
 
+    private LinkedList list;
+
     public CustomerServiceImpl(){
         this.customers=customers;
         this.accounts=new HashMap<>();
+
     }
 
     @Override
@@ -24,7 +25,8 @@ public class CustomerServiceImpl implements  CustomerService{
 
     @Override
     public List<Customer> list() {
-        return null;
+        this.list=new LinkedList<>(customers.values());
+        return list;
     }
 
     @Override

@@ -1,6 +1,8 @@
 package io.codeforall.bootcamp.javabank.services;
 
-import io.codeforall.bootcamp.javabank.domain.account.Account;
+
+
+import io.codeforall.bootcamp.javabank.model.account.Account;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +10,7 @@ import java.util.Map;
 public class AccountServiceImpl implements AccountService {
 
 
-    private Map<Integer,Account> accountMap;
+    private Map<Integer, Account> accountMap;
     private Map<Integer, Account> accounts ;
 
     public AccountServiceImpl(){

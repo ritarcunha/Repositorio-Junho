@@ -1,7 +1,7 @@
 package io.codeforall.bootcamp.javabank.application.operations;
 
 import io.codeforall.bootcamp.javabank.application.BankApplication;
-import io.codeforall.bootcamp.javabank.domain.Customer;
+
 
 /**
  * A generic bank operation to be used as a base for concrete types of bank operations
