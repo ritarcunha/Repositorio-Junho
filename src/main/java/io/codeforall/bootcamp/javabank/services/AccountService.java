@@ -2,6 +2,8 @@ package io.codeforall.bootcamp.javabank.services;
 
 import io.codeforall.bootcamp.javabank.model.account.Account;
 
+import java.sql.SQLException;
+
 /**
  * Common interface for account services, provides methods to manage accounts and perform account transactions
  */
@@ -12,7 +14,7 @@ public interface AccountService {
      *
      * @param account the account to add
      */
-    void add(Account account);
+    void add(Account account) throws SQLException;
 
     /**
      * Perform an {@link Account} deposit
