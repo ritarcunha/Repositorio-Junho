@@ -14,8 +14,8 @@ import java.util.List;
  */
 public class BalanceView implements View {
 
-    private DecimalFormat df = new DecimalFormat("#.##");
     private BalanceController balanceController;
+    private DecimalFormat df = new DecimalFormat("#.##");
 
     /**
      * Sets the controller responsible for rendering the view
@@ -37,7 +37,7 @@ public class BalanceView implements View {
     private void showBalance() {
 
         Customer customer = balanceController.getCustomer();
-        System.out.println("\n" + customer.getName() + Messages.VIEW_BALANCE_MESSAGE + "\n");
+        System.out.println("\n" + customer.getFirstName() + Messages.VIEW_BALANCE_MESSAGE + "\n");
 
         List<Account> accounts = customer.getAccounts();
         for (Account account : accounts) {

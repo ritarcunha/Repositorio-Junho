@@ -8,6 +8,14 @@ import io.codeforall.bootcamp.javabank.model.account.Account;
 public interface AccountService {
 
     /**
+     * gets an account by its id number
+     *
+     * @param id the id of the account to get
+     * @return the account with the given id
+     */
+    Account get(Integer id);
+
+    /**
      * Adds an account to the service
      *
      * @param account the account to add
@@ -38,4 +46,5 @@ public interface AccountService {
      * @param amount the amount to transfer
      */
     void transfer(int srcId, int dstId, double amount);
+
 }
