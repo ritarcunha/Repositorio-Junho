@@ -1,34 +1,93 @@
 package io.codeforall.bootcamp.javabank.model;
 
+import io.codeforall.bootcamp.javabank.model.account.AbstractAccount;
 import io.codeforall.bootcamp.javabank.model.account.Account;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
+import java.util.*;
 
 /**
  * The customer model entity
  */
+@Entity
+@Table(name = "customer")
+@Inheritance
 public class Customer extends AbstractModel {
 
-    private String name;
-    private List<Account> accounts = new ArrayList<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer Id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+    @OneToMany(targetEntity = AbstractAccount.class,
+            cascade = {CascadeType.ALL},
+            orphanRemoval = true,
+            mappedBy = "customer")
 
-    /**
-     * Gets the name of the customer
-     *
-     * @return the customer name
-     */
-    public String getName() {
-        return name;
+    private Set<Account> accounts = new HashSet<>();
+
+    @Override
+    public Integer getId() {
+        return Id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        Id = id;
+    }
+
+    @Override
+    public Integer getVersion() {
+        return super.getVersion();
+    }
+
+    @Override
+    public void setVersion(Integer version) {
+        super.setVersion(version);
     }
 
     /**
-     * Sets the name of the customer
+     * Gets the firstName of the customer
      *
-     * @param name the name to set
+     * @return the customer firstName
      */
-    public void setName(String name) {
-        this.name = name;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * Sets the firstName of the customer
+     *
+     * @param firstName the firstName to set
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     /**
@@ -36,7 +95,7 @@ public class Customer extends AbstractModel {
      *
      * @return the accounts
      */
-    public List<Account> getAccounts() {
+    public Set<Account> getAccounts() {
         return accounts;
     }
 
@@ -46,7 +105,9 @@ public class Customer extends AbstractModel {
      * @param account the account to add
      */
     public void addAccount(Account account) {
+        //account.setCustomerId(getId());
         accounts.add(account);
+        account.setCustomer(this);
     }
 
     /**
@@ -58,6 +119,16 @@ public class Customer extends AbstractModel {
         accounts.remove(account);
     }
 
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", accounts=" + accounts +
+                '}';
+    }
 }
 
 

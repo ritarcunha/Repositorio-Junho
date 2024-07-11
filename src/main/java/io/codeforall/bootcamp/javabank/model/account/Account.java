@@ -1,6 +1,10 @@
 package io.codeforall.bootcamp.javabank.model.account;
 
+import io.codeforall.bootcamp.javabank.model.Customer;
 import io.codeforall.bootcamp.javabank.model.Model;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * Common interface for bank accounts, provides methods to access account
@@ -14,6 +18,8 @@ public interface Account extends Model {
      * @return the account balance
      */
     double getBalance();
+
+    void setCustomer(Customer customer);
 
     /**
      * Gets the account type
@@ -60,4 +66,18 @@ public interface Account extends Model {
      * @return {@code true} if withdraw can be done
      */
     boolean canWithdraw();
+
+    /**
+     * Returns the owning customer's Id
+     *
+     * @return the owning customer's Id
+     */
+    Integer getCustomerId();
+
+    /**
+     * Sets the owning customer id
+     *
+     * @param id the owner customer id
+     */
+    void setCustomerId(Integer id);
 }

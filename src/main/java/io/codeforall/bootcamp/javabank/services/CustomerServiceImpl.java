@@ -1,65 +1,85 @@
 package io.codeforall.bootcamp.javabank.services;
 
+import io.codeforall.bootcamp.javabank.persistence.TransactionException;
+import io.codeforall.bootcamp.javabank.persistence.TransactionManager;
+import io.codeforall.bootcamp.javabank.persistence.daos.CustomerDao;
 import io.codeforall.bootcamp.javabank.model.Customer;
 import io.codeforall.bootcamp.javabank.model.account.Account;
 
 import java.util.*;
 
-/**
- * An {@link CustomerService} implementation
- */
 public class CustomerServiceImpl implements CustomerService {
 
-    private Map<Integer, Customer> customerMap = new HashMap<>();
+    private TransactionManager tm;
+    private CustomerDao customerDao;
 
-    /**
-     * Gets the next account id
-     *
-     * @return the next id
-     */
-    private Integer getNextId() {
-        return customerMap.isEmpty() ? 1 : Collections.max(customerMap.keySet()) + 1;
+
+    public void setCustomerDAO(CustomerDao customerDao) {
+        this.customerDao = customerDao;
     }
 
-    /**
-     * @see CustomerService#get(Integer)
-     */
+    public void setTm(TransactionManager tm) {
+        this.tm = tm;
+    }
+
+
     @Override
     public Customer get(Integer id) {
-        return customerMap.get(id);
+
+        try {
+            tm.beginRead();
+            return customerDao.findById(id);
+        } finally {
+            tm.commit();
+        }
+
     }
 
-    /**
-     * @see CustomerService#list()
-     */
     @Override
     public List<Customer> list() {
-        return new ArrayList<>(customerMap.values());
+
+        try {
+            tm.beginRead();
+            return customerDao.findAll();
+        } finally {
+            tm.commit();
+        }
     }
 
-    /**
-     * @see CustomerService#listCustomerAccountIds(Integer)
-     */
     @Override
     public Set<Integer> listCustomerAccountIds(Integer id) {
 
-        Set<Integer> accountIds = new HashSet<>();
-        List<Account> accountList = customerMap.get(id).getAccounts();
+        Customer customer = get(id);
 
-        for (Account account : accountList) {
-            accountIds.add(account.getId());
+        if (customer == null) {
+            throw new IllegalArgumentException("Customer does not exist");
         }
 
-        return accountIds;
+        Set<Account> accounts = customer.getAccounts();
+
+        if (accounts.size() == 0) {
+            return Collections.emptySet();
+        }
+
+        Set<Integer> customerAccountIds = new HashSet<>();
+
+        for (Account account : accounts) {
+            customerAccountIds.add(account.getId());
+        }
+
+        return customerAccountIds;
     }
 
-    /**
-     * @see CustomerService#getBalance(int)
-     */
     @Override
-    public double getBalance(int customerId) {
+    public double getBalance(int id) {
 
-        List<Account> accounts = customerMap.get(customerId).getAccounts();
+        Customer customer = get(id);
+
+        if (customer == null) {
+            throw new IllegalArgumentException("Customer does not exist");
+        }
+
+        Set<Account> accounts = customer.getAccounts();
 
         double balance = 0;
         for (Account account : accounts) {
@@ -69,16 +89,18 @@ public class CustomerServiceImpl implements CustomerService {
         return balance;
     }
 
-    /**
-     * @see CustomerService#add(Customer)
-     */
     @Override
     public void add(Customer customer) {
 
-        if (customer.getId() == null) {
-            customer.setId(getNextId());
+        try {
+            tm.beginWrite();
+            customerDao.saveOrUpdate(customer);
+            tm.commit();
+        } catch (TransactionException e){
+            tm.rollback();
         }
 
-        customerMap.put(customer.getId(), customer);
     }
+
+
 }
