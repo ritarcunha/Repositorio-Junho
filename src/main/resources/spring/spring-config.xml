@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <util:constant id="stdin" static-field="java.lang.System.in"/>
+    <util:constant id="stdout" static-field="java.lang.System.out"/>
+
+    <bean id="prompt" class="org.academiadecodigo.bootcamp.Prompt">
+        <constructor-arg name="input" ref="stdin"/>
+        <constructor-arg name="output" ref="stdout"/>
+    </bean>
+
+    <bean id="authService" class="io.codeforall.bootcamp.javabank.services.AuthServiceImpl"/>
+
+    <bean id="loginView" class="io.codeforall.bootcamp.javabank.view.LoginView">
+        <property name="loginController" ref="loginController"/>
+        <property name="prompt" ref="prompt"/>
+    </bean>
+
+    <bean id="loginController" class="io.codeforall.bootcamp.javabank.controller.LoginController">
+        <property name="view" ref="loginView"/>
+        <property name="authService" ref="authService"/>
+        <property name="nextController" ref="mainController"/>
+    </bean>
+
+    <bean id="mainView" class="io.codeforall.bootcamp.javabank.view.MainView">
+        <property name="prompt" ref="prompt"/>
+        <property name="mainController" ref="mainController"/>
+    </bean>
+
+    <bean id="mainController" class="io.codeforall.bootcamp.javabank.controller.MainController">
+        <property name="view" ref="mainView"/>
+        <property name="authService" ref="authService"/>
+    </bean>
+
+    <bean id="balanceController" class="io.codeforall.bootcamp.javabank.controller.BalanceController">
+        <property name="view" ref="balanceView"/>
+        <property name="customerService" ref="customerServiceImpl"/>
+        <property name="authService" ref="authService"/>
+    </bean>
+
+    <bean id="balanceView" class="io.codeforall.bootcamp.javabank.view.BalanceView">
+
+    </bean>
+
+    <bean id="customerServiceImpl" class="io.codeforall.bootcamp.javabank.services.CustomerServiceImpl"/>
+
+</beans>
+

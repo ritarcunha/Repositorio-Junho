@@ -1,24 +1,39 @@
 package io.codeforall.bootcamp.javabank.services;
 
+import io.codeforall.bootcamp.javabank.model.AbstractModel;
 import io.codeforall.bootcamp.javabank.model.Customer;
+import io.codeforall.bootcamp.javabank.model.Recipient;
 import io.codeforall.bootcamp.javabank.model.account.Account;
+import io.codeforall.bootcamp.javabank.persistence.TransactionManager;
+import io.codeforall.bootcamp.javabank.persistence.dao.CustomerDao;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * An {@link CustomerService} implementation
  */
 public class CustomerServiceImpl implements CustomerService {
 
-    private Map<Integer, Customer> customerMap = new HashMap<>();
+    private CustomerDao customerDao;
+    private TransactionManager tx;
 
     /**
-     * Gets the next account id
+     * Sets the customer data access object
      *
-     * @return the next id
+     * @param customerDao the account DAO to set
      */
-    private Integer getNextId() {
-        return customerMap.isEmpty() ? 1 : Collections.max(customerMap.keySet()) + 1;
+    public void setCustomerDao(CustomerDao customerDao) {
+        this.customerDao = customerDao;
+    }
+
+    /**
+     * Sets the transaction manager
+     *
+     * @param tx the transaction manager to set
+     */
+    public void setTransactionManager(TransactionManager tx) {
+        this.tx = tx;
     }
 
     /**
@@ -26,15 +41,37 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public Customer get(Integer id) {
-        return customerMap.get(id);
+
+        try {
+
+            tx.beginRead();
+            return customerDao.findById(id);
+
+        } finally {
+            tx.commit();
+        }
     }
 
     /**
-     * @see CustomerService#list()
+     * @see CustomerService#getBalance(Integer)
      */
     @Override
-    public List<Customer> list() {
-        return new ArrayList<>(customerMap.values());
+    public double getBalance(Integer id) {
+
+        try {
+
+            tx.beginRead();
+
+            Customer customer = Optional.ofNullable(customerDao.findById(id))
+                    .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
+
+            return customer.getAccounts().stream()
+                    .mapToDouble(Account::getBalance)
+                    .sum();
+
+        } finally {
+            tx.commit();
+        }
     }
 
     /**
@@ -43,42 +80,39 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Set<Integer> listCustomerAccountIds(Integer id) {
 
-        Set<Integer> accountIds = new HashSet<>();
-        List<Account> accountList = customerMap.get(id).getAccounts();
+        try {
 
-        for (Account account : accountList) {
-            accountIds.add(account.getId());
+            tx.beginRead();
+
+            Customer customer = Optional.ofNullable(customerDao.findById(id))
+                    .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
+
+            return customer.getAccounts().stream()
+                    .map(AbstractModel::getId)
+                    .collect(Collectors.toSet());
+
+        } finally {
+            tx.commit();
         }
-
-        return accountIds;
     }
 
     /**
-     * @see CustomerService#getBalance(int)
+     * @see CustomerService#listRecipients(Integer)
      */
     @Override
-    public double getBalance(int customerId) {
+    public List<Recipient> listRecipients(Integer id) {
 
-        List<Account> accounts = customerMap.get(customerId).getAccounts();
+        try {
 
-        double balance = 0;
-        for (Account account : accounts) {
-            balance += account.getBalance();
+            tx.beginRead();
+
+            Customer customer = Optional.ofNullable(customerDao.findById(id))
+                    .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
+
+            return new ArrayList<>(customer.getRecipients());
+
+        } finally {
+            tx.commit();
         }
-
-        return balance;
-    }
-
-    /**
-     * @see CustomerService#add(Customer)
-     */
-    @Override
-    public void add(Customer customer) {
-
-        if (customer.getId() == null) {
-            customer.setId(getNextId());
-        }
-
-        customerMap.put(customer.getId(), customer);
     }
 }

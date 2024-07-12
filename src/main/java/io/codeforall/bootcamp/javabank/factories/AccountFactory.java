@@ -1,5 +1,6 @@
 package io.codeforall.bootcamp.javabank.factories;
 
+
 import io.codeforall.bootcamp.javabank.model.account.Account;
 import io.codeforall.bootcamp.javabank.model.account.AccountType;
 import io.codeforall.bootcamp.javabank.model.account.CheckingAccount;

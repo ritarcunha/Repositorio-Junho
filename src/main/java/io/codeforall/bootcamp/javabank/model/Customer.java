@@ -2,62 +2,119 @@ package io.codeforall.bootcamp.javabank.model;
 
 import io.codeforall.bootcamp.javabank.model.account.Account;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The customer model entity
- */
+@Entity
+@Table(name = "customer")
 public class Customer extends AbstractModel {
 
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+
+    @OneToMany(
+            // propagate changes on customer entity to account entities
+            cascade = {CascadeType.ALL},
+
+            // make sure to remove accounts if unlinked from customer
+            orphanRemoval = true,
+
+            // use customer foreign key on account table to establish
+            // the many-to-one relationship instead of a join table
+            mappedBy = "customer",
+
+            // fetch accounts from database together with user
+            fetch = FetchType.EAGER
+    )
     private List<Account> accounts = new ArrayList<>();
 
-    /**
-     * Gets the name of the customer
-     *
-     * @return the customer name
-     */
-    public String getName() {
-        return name;
+    @OneToMany(
+            // propagate changes on customer entity to account entities
+            cascade = {CascadeType.ALL},
+
+            // make sure to remove recipients if unlinked from customer
+            orphanRemoval = true,
+
+            // use recipient foreign key on recipient table to establish
+            // the many-to-one relationship instead of a join table
+            mappedBy = "customer"
+    )
+    private List<Recipient> recipients = new ArrayList<>();
+
+    public String getFirstName() {
+        return firstName;
     }
 
-    /**
-     * Sets the name of the customer
-     *
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    /**
-     * Gets the customer accounts
-     *
-     * @return the accounts
-     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public List<Account> getAccounts() {
         return accounts;
     }
 
-    /**
-     * Adds a new account to the customer
-     *
-     * @param account the account to add
-     */
     public void addAccount(Account account) {
         accounts.add(account);
+        account.setCustomer(this);
     }
 
-    /**
-     * Removes an account from the customer
-     *
-     * @param account the account to remove
-     */
     public void removeAccount(Account account) {
         accounts.remove(account);
+        account.setCustomer(null);
     }
 
+    public List<Recipient> getRecipients() {
+        return recipients;
+    }
+
+    public void addRecipient(Recipient recipient) {
+        recipients.add(recipient);
+        recipient.setCustomer(this);
+    }
+
+    public void removeRecipient(Recipient recipient) {
+        recipients.remove(recipient);
+        recipient.setCustomer(null);
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", accounts=" + accounts +
+                ", recipients=" + recipients +
+                "} " + super.toString();
+    }
 }
 
 

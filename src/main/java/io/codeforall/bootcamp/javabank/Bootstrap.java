@@ -1,15 +1,16 @@
 package io.codeforall.bootcamp.javabank;
 
 import io.codeforall.bootcamp.javabank.controller.*;
-import io.codeforall.bootcamp.javabank.controller.transaction.DepositController;
-import io.codeforall.bootcamp.javabank.controller.transaction.WithdrawalController;
 import io.codeforall.bootcamp.javabank.factories.AccountFactory;
-import io.codeforall.bootcamp.javabank.model.Customer;
-import io.codeforall.bootcamp.javabank.services.AccountServiceImpl;
+import io.codeforall.bootcamp.javabank.services.AccountService;
 import io.codeforall.bootcamp.javabank.services.AuthServiceImpl;
-import io.codeforall.bootcamp.javabank.services.CustomerServiceImpl;
+import io.codeforall.bootcamp.javabank.services.CustomerService;
 import io.codeforall.bootcamp.javabank.view.*;
 import org.academiadecodigo.bootcamp.Prompt;
+import io.codeforall.bootcamp.javabank.controller.transaction.DepositController;
+import io.codeforall.bootcamp.javabank.controller.transaction.WithdrawalController;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,8 +21,8 @@ import java.util.Map;
 public class Bootstrap {
 
     private AuthServiceImpl authService;
-    private CustomerServiceImpl customerService;
-    private AccountServiceImpl accountService;
+    private CustomerService customerService;
+    private AccountService accountService;
 
     /**
      * Sets the authentication service
@@ -37,7 +38,7 @@ public class Bootstrap {
      *
      * @param customerService the customer service to set
      */
-    public void setCustomerService(CustomerServiceImpl customerService) {
+    public void setCustomerService(CustomerService customerService) {
         this.customerService = customerService;
     }
 
@@ -46,24 +47,8 @@ public class Bootstrap {
      *
      * @param accountService the account service to set
      */
-    public void setAccountService(AccountServiceImpl accountService) {
+    public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
-    }
-
-    /**
-     * Creates a {@code CustomerService} and populates it with data
-     */
-    public void loadCustomers() {
-
-        Customer c1 = new Customer();
-        Customer c2 = new Customer();
-        Customer c3 = new Customer();
-        c1.setName("Rui");
-        c2.setName("Sergio");
-        c3.setName("Bruno");
-        customerService.add(c1);
-        customerService.add(c2);
-        customerService.add(c3);
     }
 
     /**
@@ -72,6 +57,10 @@ public class Bootstrap {
      * @return the login controller
      */
     public Controller wireObjects() {
+
+        ApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"services.xml", "daos.xml"});
+
+        LoginController lg = context.getBean("loginController", LoginController.class);
 
         // attach all input to standard i/o
         Prompt prompt = new Prompt(System.in, System.out);
@@ -131,12 +120,21 @@ public class Bootstrap {
         withdrawView.setPrompt(prompt);
         withdrawView.setTransactionController(withdrawalController);
 
+        // wire recipients controller and view
+        RecipientsController recipientsController = new RecipientsController();
+        RecipientsView recipientsView = new RecipientsView();
+        recipientsView.setRecipientsController(recipientsController);
+        recipientsController.setView(recipientsView);
+        recipientsController.setAuthService(authService);
+        recipientsController.setCustomerService(customerService);
+
         // setup the controller map
         Map<Integer, Controller> controllerMap = new HashMap<>();
         controllerMap.put(UserOptions.GET_BALANCE.getOption(), balanceController);
         controllerMap.put(UserOptions.OPEN_ACCOUNT.getOption(), newAccountController);
         controllerMap.put(UserOptions.DEPOSIT.getOption(), depositController);
         controllerMap.put(UserOptions.WITHDRAW.getOption(), withdrawalController);
+        controllerMap.put(UserOptions.LIST_RECIPIENTS.getOption(), recipientsController);
 
         mainController.setControllerMap(controllerMap);
 
