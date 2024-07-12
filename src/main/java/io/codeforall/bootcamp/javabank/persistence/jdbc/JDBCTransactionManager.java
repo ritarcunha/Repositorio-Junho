@@ -15,15 +15,15 @@ public class JDBCTransactionManager implements TransactionManager {
     private EntityManager em;
 
     public JDBCTransactionManager() {
+        this.emf = sm.startSession();
         this.emf = sm.getEmf();
-        this.em = emf.createEntityManager();
     }
 
     public EntityManager getEm() {
         return this.em;
     }
 
-    public void setConnectionManager(JDBCSessionManager JDBCSessionManager) {
+    public void setSessionManager(JDBCSessionManager JDBCSessionManager) {
         this.sm = JDBCSessionManager;
     }
 

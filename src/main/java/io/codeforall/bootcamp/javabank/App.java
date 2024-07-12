@@ -21,7 +21,7 @@ public class App {
 
         JDBCSessionManager JDBCSessionManager = new JDBCSessionManager();
         JDBCTransactionManager transactionManager = new JDBCTransactionManager();
-        transactionManager.setConnectionManager(JDBCSessionManager);
+        transactionManager.setSessionManager(JDBCSessionManager);
         JDBCAccountDao JDBCAccountDao = new JDBCAccountDao();
         JDBCCustomerDao JDBCCustomerDao = new JDBCCustomerDao();
 

@@ -2,6 +2,7 @@ package io.codeforall.bootcamp.javabank.persistence.jdbc;
 
 import io.codeforall.bootcamp.javabank.persistence.SessionManager;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.sql.Connection;
@@ -33,8 +34,8 @@ public class JDBCSessionManager implements SessionManager {
 
 
     @Override
-    public void startSession() {
-        emf = Persistence.createEntityManagerFactory("test");
+    public EntityManagerFactory startSession() {
+        return emf = Persistence.createEntityManagerFactory("test");
     }
 
     @Override

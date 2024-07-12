@@ -1,10 +1,12 @@
 package io.codeforall.bootcamp.javabank.persistence;
 
+import javax.persistence.EntityManagerFactory;
+
 public interface SessionManager {
     /**
      * Starts the session
      */
-    void startSession();
+    EntityManagerFactory startSession();
 
     /**
      * Stops the session
