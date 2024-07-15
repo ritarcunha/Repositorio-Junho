@@ -1,8 +1,8 @@
 package io.codeforall.bootcamp.javabank.controller;
 
 import io.codeforall.bootcamp.javabank.factories.AccountFactory;
-import io.codeforall.bootcamp.javabank.model.account.Account;
-import io.codeforall.bootcamp.javabank.model.account.AccountType;
+import io.codeforall.bootcamp.javabank.persistence.model.account.Account;
+import io.codeforall.bootcamp.javabank.persistence.model.account.AccountType;
 import io.codeforall.bootcamp.javabank.services.AccountService;
 import io.codeforall.bootcamp.javabank.view.NewAccountView;
 
@@ -50,7 +50,6 @@ public class NewAccountController extends AbstractController {
      */
     @Override
     public void init() {
-
         newAccountId = createAccount();
         super.init();
     }
@@ -58,10 +57,7 @@ public class NewAccountController extends AbstractController {
     private int createAccount() {
 
         Account newAccount = accountFactory.createAccount(AccountType.CHECKING);
-
-        accountService.add(newAccount);
         authService.getAccessingCustomer().addAccount(newAccount);
-
-        return newAccount.getId();
+        return accountService.add(newAccount);
     }
 }

@@ -1,14 +1,16 @@
 package io.codeforall.bootcamp.javabank.services;
 
-import io.codeforall.bootcamp.javabank.model.Customer;
+import io.codeforall.bootcamp.javabank.persistence.model.Customer;
+
+import java.util.Optional;
 
 /**
  * An {@link AuthService} implementation
  */
 public class AuthServiceImpl implements AuthService {
 
+    private Integer accessingCustomerId;
     private CustomerService customerService;
-    private Customer accessingCustomer;
 
     /**
      * Sets the customer service
@@ -25,8 +27,11 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public boolean authenticate(Integer id) {
 
-        accessingCustomer = customerService.get(id);
-        return accessingCustomer != null;
+        Optional<Customer> customerOptional = Optional.ofNullable(customerService.get(id));
+
+        customerOptional.ifPresent(customer -> accessingCustomerId = customer.getId());
+
+        return customerOptional.isPresent();
     }
 
     /**
@@ -34,6 +39,6 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     public Customer getAccessingCustomer() {
-        return accessingCustomer;
+        return customerService.get(accessingCustomerId);
     }
 }

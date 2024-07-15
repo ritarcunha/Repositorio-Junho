@@ -1,9 +1,8 @@
 package io.codeforall.bootcamp.javabank;
 
 import io.codeforall.bootcamp.javabank.controller.Controller;
-import io.codeforall.bootcamp.javabank.services.AccountServiceImpl;
-import io.codeforall.bootcamp.javabank.services.AuthServiceImpl;
-import io.codeforall.bootcamp.javabank.services.CustomerServiceImpl;
+import io.codeforall.bootcamp.javabank.controller.LoginController;
+import org.springframework.context.support.GenericXmlApplicationContext;
 
 public class App {
 
@@ -15,15 +14,18 @@ public class App {
 
     private void bootStrap() {
 
-        Bootstrap bootstrap = new Bootstrap();
-        bootstrap.setAuthService(new AuthServiceImpl());
-        bootstrap.setAccountService(new AccountServiceImpl());
-        bootstrap.setCustomerService(new CustomerServiceImpl());
-        bootstrap.loadCustomers();
+        GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
+        ctx.getEnvironment().setActiveProfiles(getProfile());
+        ctx.load(Config.SPRING_CONFIG);
+        ctx.refresh();
 
-        Controller controller = bootstrap.wireObjects();
-
-        // start application
+        Controller controller = ctx.getBean(LoginController.class);
         controller.init();
+    }
+
+    private String getProfile() {
+
+        String target = System.getenv(Config.SPRING_PROFILE_ENV_VAR);
+        return target == null ? Config.SPRING_DEFAULT_PROFILE : target;
     }
 }
