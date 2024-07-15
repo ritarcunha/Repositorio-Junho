@@ -58,9 +58,7 @@ public class Bootstrap {
      */
     public Controller wireObjects() {
 
-        ApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"services.xml", "daos.xml"});
 
-        LoginController lg = context.getBean("loginController", LoginController.class);
 
         // attach all input to standard i/o
         Prompt prompt = new Prompt(System.in, System.out);
@@ -115,6 +113,7 @@ public class Bootstrap {
         withdrawalController.setCustomerService(customerService);
         withdrawalController.setAccountService(accountService);
         withdrawalController.setView(withdrawView);
+
         depositView.setPrompt(prompt);
         depositView.setTransactionController(depositController);
         withdrawView.setPrompt(prompt);

@@ -46,5 +46,45 @@
 
     <bean id="customerServiceImpl" class="io.codeforall.bootcamp.javabank.services.CustomerServiceImpl"/>
 
+    <bean id="newaccountview" class="io.codeforall.bootcamp.javabank.view.NewAccountView"/>
+    <bean id="accountService" class="io.codeforall.bootcamp.javabank.services.AccountServiceImpl"/>
+
+    <bean id="newAccountController" class="io.codeforall.bootcamp.javabank.controller.NewAccountController">
+        <property name="accountService" ref="accountService"/>
+        <property name="authService" ref="authService"/>
+        <property name="view" ref="newaccountview"/>
+
+    </bean>
+
+
+    <bean id="newAccountView" class="io.codeforall.bootcamp.javabank.view.NewAccountView">
+        <property name="newAccountController" ref="newAccountController"/>
+</bean>
+
+    <bean id="depositView" class="io.codeforall.bootcamp.javabank.view.AccountTransactionView"/>
+
+
+    <bean id="depositController" class="io.codeforall.bootcamp.javabank.controller.transaction.DepositController">
+        <property name="authService" ref="authService"/>
+        <property name="accountService" ref="accountService"/>
+        <property name="view" ref="depositView"/>
+
+</bean>
+
+    <bean id="withdrawView" class="io.codeforall.bootcamp.javabank.view.AccountTransactionView"/>
+    <bean id="customerService" class="io.codeforall.bootcamp.javabank.services.CustomerServiceImpl"/>
+
+    <bean id="withdrawalController" class="io.codeforall.bootcamp.javabank.controller.transaction.WithdrawalController">
+        <property name = "authService" ref="authService"/>
+        <property name="customerService" ref="customerService"/>
+        <property name="accountService" ref="accountService"/>
+        <property name="view" ref="withdrawView"/>
+
+
+</bean>
+
+
+
+
 </beans>
 

@@ -20,6 +20,13 @@ public class App {
 
     public static void main(String[] args) {
 
+        ApplicationContext context = new ClassPathXmlApplicationContext("/spring/spring-config.xml");
+
+        LoginController lg = context.getBean("loginController", LoginController.class);
+
+        lg.init();
+
+        /*
         JpaBootstrap jpa = new JpaBootstrap();
         EntityManagerFactory emf = jpa.start();
 
@@ -30,6 +37,8 @@ public class App {
         app.bootStrap(tx, sm);
 
         jpa.stop();
+
+         */
 
     }
 
