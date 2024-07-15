@@ -1,10 +1,8 @@
 package io.codeforall.bootcamp.javabank.persistence.dao.jpa;
 
 import io.codeforall.bootcamp.javabank.persistence.model.Model;
-import io.codeforall.bootcamp.javabank.persistence.TransactionException;
 import io.codeforall.bootcamp.javabank.persistence.dao.Dao;
-import io.codeforall.bootcamp.javabank.persistence.jpa.JpaSessionManager;
-import org.hibernate.HibernateException;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
@@ -19,7 +17,7 @@ import java.util.List;
  */
 public abstract class GenericJpaDao<T extends Model> implements Dao<T> {
 
-    protected JpaSessionManager sm;
+    protected EntityManager em;
     protected Class<T> modelType;
 
     /**
@@ -34,21 +32,19 @@ public abstract class GenericJpaDao<T extends Model> implements Dao<T> {
     /**
      * Sets the session manager
      *
-     * @param sm the session manager to set
+     * @param em the session manager to set
      */
-    public void setSm(JpaSessionManager sm) {
-        this.sm = sm;
+    @Transactional
+    public void setSm(EntityManager em) {
+        this.em = em;
     }
 
     /**
      * @see Dao#findAll()
      */
+   @Transactional
     @Override
     public List<T> findAll() {
-
-        try {
-
-            EntityManager em = sm.getCurrentSession();
 
             CriteriaQuery<T> criteriaQuery = em.getCriteriaBuilder().createQuery(modelType);
             Root<T> root = criteriaQuery.from(modelType);
@@ -57,57 +53,32 @@ public abstract class GenericJpaDao<T extends Model> implements Dao<T> {
             // Using JPQL
             // return em.createQuery( "from " + modelType.getSimpleName(), modelType).getResultList();
 
-
-        } catch (HibernateException ex) {
-            throw new TransactionException(ex);
-        }
     }
 
     /**
      * @see Dao#findById(Integer)
      */
+   @Transactional
     @Override
     public T findById(Integer id) {
-
-        try {
-
-            EntityManager em = sm.getCurrentSession();
             return em.find(modelType, id);
-
-        } catch (HibernateException ex) {
-            throw new TransactionException(ex);
-        }
     }
 
     /**
      * @see Dao#saveOrUpdate(Model)
      */
+    @Transactional
     @Override
     public T saveOrUpdate(T modelObject) {
-
-        try {
-
-            EntityManager em = sm.getCurrentSession();
             return em.merge(modelObject);
-
-        } catch (HibernateException ex) {
-            throw new TransactionException(ex);
-        }
     }
 
     /**
      * @see Dao#delete(Integer)
      */
+   @Transactional
     @Override
     public void delete(Integer id) {
-
-        try {
-
-            EntityManager em = sm.getCurrentSession();
             em.remove(em.find(modelType, id));
-
-        } catch (HibernateException ex) {
-            throw new TransactionException(ex);
-        }
     }
 }

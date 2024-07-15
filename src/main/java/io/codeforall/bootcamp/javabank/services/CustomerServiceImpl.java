@@ -4,8 +4,8 @@ import io.codeforall.bootcamp.javabank.persistence.model.AbstractModel;
 import io.codeforall.bootcamp.javabank.persistence.model.Customer;
 import io.codeforall.bootcamp.javabank.persistence.model.Recipient;
 import io.codeforall.bootcamp.javabank.persistence.model.account.Account;
-import io.codeforall.bootcamp.javabank.persistence.TransactionManager;
 import io.codeforall.bootcamp.javabank.persistence.dao.CustomerDao;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 public class CustomerServiceImpl implements CustomerService {
 
-    private TransactionManager tx;
+
     private CustomerDao customerDao;
 
     /**
@@ -32,35 +32,31 @@ public class CustomerServiceImpl implements CustomerService {
      *
      * @param tx the transaction manager to set
      */
-    public void setTransactionManager(TransactionManager tx) {
-        this.tx = tx;
-    }
+
 
     /**
      * @see CustomerService#get(Integer)
      */
+   @Transactional
     @Override
     public Customer get(Integer id) {
 
-        try {
 
-            tx.beginRead();
             return customerDao.findById(id);
 
-        } finally {
-            tx.commit();
-        }
+
     }
 
     /**
      * @see CustomerService#getBalance(Integer)
      */
+
+    @Transactional
     @Override
     public double getBalance(Integer id) {
 
-        try {
 
-            tx.beginRead();
+
 
             Customer customer = Optional.ofNullable(customerDao.findById(id))
                     .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
@@ -69,20 +65,18 @@ public class CustomerServiceImpl implements CustomerService {
                     .mapToDouble(Account::getBalance)
                     .sum();
 
-        } finally {
-            tx.commit();
-        }
+
+
     }
 
     /**
      * @see CustomerService#listCustomerAccountIds(Integer)
      */
+    @Transactional
     @Override
     public Set<Integer> listCustomerAccountIds(Integer id) {
 
-        try {
 
-            tx.beginRead();
 
             Customer customer = Optional.ofNullable(customerDao.findById(id))
                     .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
@@ -91,28 +85,22 @@ public class CustomerServiceImpl implements CustomerService {
                     .map(AbstractModel::getId)
                     .collect(Collectors.toSet());
 
-        } finally {
-            tx.commit();
-        }
+
     }
 
     /**
      * @see CustomerService#listRecipients(Integer)
      */
+    @Transactional
     @Override
     public List<Recipient> listRecipients(Integer id) {
 
-        try {
-
-            tx.beginRead();
 
             Customer customer = Optional.ofNullable(customerDao.findById(id))
                     .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
 
             return new ArrayList<>(customer.getRecipients());
 
-        } finally {
-            tx.commit();
-        }
+
     }
 }

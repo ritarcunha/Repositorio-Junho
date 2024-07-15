@@ -5,7 +5,6 @@ import io.codeforall.bootcamp.javabank.persistence.model.account.CheckingAccount
 import io.codeforall.bootcamp.javabank.persistence.model.account.SavingsAccount;
 import io.codeforall.bootcamp.javabank.persistence.TransactionException;
 import io.codeforall.bootcamp.javabank.persistence.dao.jpa.JpaAccountDao;
-import io.codeforall.bootcamp.javabank.persistence.jpa.JpaSessionManager;
 import org.hibernate.HibernateException;
 import org.junit.Before;
 import org.junit.Test;
