@@ -1,5 +1,7 @@
 package io.codeforall.bootcamp.javabank.persistence.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -34,6 +36,7 @@ public class Recipient extends AbstractModel {
      *
      * @param name the name to set
      */
+    @Autowired
     public void setName(String name) {
         this.name = name;
     }
@@ -52,6 +55,7 @@ public class Recipient extends AbstractModel {
      *
      * @param email the email to set
      */
+    @Autowired
     public void setEmail(String email) {
         this.email = email;
     }
@@ -70,6 +74,7 @@ public class Recipient extends AbstractModel {
      *
      * @param phone the phone to set
      */
+    @Autowired
     public void setPhone(String phone) {
         this.phone = phone;
     }
@@ -88,6 +93,7 @@ public class Recipient extends AbstractModel {
      *
      * @param accountNumber the account number to set
      */
+    @Autowired
     public void setAccountNumber(Integer accountNumber) {
         this.accountNumber = accountNumber;
     }
@@ -106,6 +112,7 @@ public class Recipient extends AbstractModel {
      *
      * @param description the description to set
      */
+    @Autowired
     public void setDescription(String description) {
         this.description = description;
     }
@@ -124,6 +131,7 @@ public class Recipient extends AbstractModel {
      *
      * @param customer the customer to set
      */
+    @Autowired
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }

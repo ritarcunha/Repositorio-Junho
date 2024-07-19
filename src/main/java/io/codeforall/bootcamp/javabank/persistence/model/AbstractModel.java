@@ -2,6 +2,7 @@ package io.codeforall.bootcamp.javabank.persistence.model;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -37,6 +38,7 @@ public abstract class AbstractModel implements Model {
      * @see Model#setId(Integer)
      */
     @Override
+    @Autowired
     public void setId(Integer id) {
         this.id = id;
     }
@@ -55,6 +57,7 @@ public abstract class AbstractModel implements Model {
      *
      * @param version the model version to set
      */
+    @Autowired
     public void setVersion(Integer version) {
         this.version = version;
     }
@@ -73,6 +76,7 @@ public abstract class AbstractModel implements Model {
      *
      * @param creationTime the model creation time to set
      */
+    @Autowired
     public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
     }
@@ -91,6 +95,7 @@ public abstract class AbstractModel implements Model {
      *
      * @param updateTime the model update time to set
      */
+    @Autowired
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }

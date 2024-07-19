@@ -8,11 +8,7 @@
     <import resource="./persistence/persistence-dev.xml"/>
     <import resource="./persistence/persistence-prod.xml"/>
 
-    <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="emFactory" />
-    </bean>
 
     <bean id="accountDao" class="io.codeforall.bootcamp.javabank.persistence.dao.jpa.JpaAccountDao"/>
     <bean id="customerDao" class="io.codeforall.bootcamp.javabank.persistence.dao.jpa.JpaCustomerDao"/>

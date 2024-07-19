@@ -2,6 +2,7 @@ package io.codeforall.bootcamp.javabank.persistence.model.account;
 
 import io.codeforall.bootcamp.javabank.persistence.model.AbstractModel;
 import io.codeforall.bootcamp.javabank.persistence.model.Customer;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 
@@ -42,6 +43,8 @@ public abstract class Account extends AbstractModel {
      *
      * @param customer the customer to set
      */
+
+    @Autowired
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }

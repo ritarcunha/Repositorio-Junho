@@ -1,6 +1,7 @@
 package io.codeforall.bootcamp.javabank.persistence.model;
 
 import io.codeforall.bootcamp.javabank.persistence.model.account.Account;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -61,6 +62,7 @@ public class Customer extends AbstractModel {
      *
      * @param firstName the name to set
      */
+    @Autowired
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -79,6 +81,7 @@ public class Customer extends AbstractModel {
      *
      * @param lastName the name to set
      */
+    @Autowired
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -97,6 +100,7 @@ public class Customer extends AbstractModel {
      *
      * @param email the email to set
      */
+    @Autowired
     public void setEmail(String email) {
         this.email = email;
     }
@@ -115,6 +119,7 @@ public class Customer extends AbstractModel {
      *
      * @param phone the phone to set
      */
+    @Autowired
     public void setPhone(String phone) {
         this.phone = phone;
     }
