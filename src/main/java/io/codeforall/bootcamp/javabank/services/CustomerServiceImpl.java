@@ -4,10 +4,7 @@ import io.codeforall.bootcamp.javabank.persistence.model.AbstractModel;
 import io.codeforall.bootcamp.javabank.persistence.model.Customer;
 import io.codeforall.bootcamp.javabank.persistence.model.Recipient;
 import io.codeforall.bootcamp.javabank.persistence.model.account.Account;
-<<<<<<< HEAD
-=======
 import io.codeforall.bootcamp.javabank.persistence.dao.CustomerDao;
->>>>>>> a9c2c77bc56e61f0a8a0f6a825227f401a988522
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,7 +64,6 @@ public class CustomerServiceImpl implements CustomerService {
      * @see CustomerService#listCustomerAccountIds(Integer)
      */
     @Override
-
     public Set<Integer> listCustomerAccountIds(Integer id) {
 
         Customer customer = Optional.ofNullable(customerDao.findById(id))
@@ -92,9 +88,5 @@ public class CustomerServiceImpl implements CustomerService {
                 .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
 
         return new ArrayList<>(customer.getRecipients());
-    }
-
-    public List <Customer> customerList (){
-        return new ArrayList<>(customerDao.findAll());
     }
 }

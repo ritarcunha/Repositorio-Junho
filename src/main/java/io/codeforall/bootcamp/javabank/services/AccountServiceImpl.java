@@ -1,10 +1,7 @@
 package io.codeforall.bootcamp.javabank.services;
 
 import io.codeforall.bootcamp.javabank.persistence.model.account.Account;
-<<<<<<< HEAD
-=======
 import io.codeforall.bootcamp.javabank.persistence.dao.AccountDao;
->>>>>>> a9c2c77bc56e61f0a8a0f6a825227f401a988522
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
