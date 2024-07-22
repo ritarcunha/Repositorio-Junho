@@ -2,6 +2,8 @@ package io.codeforall.bootcamp.javabank.services;
 
 import io.codeforall.bootcamp.javabank.persistence.dao.AccountDao;
 import io.codeforall.bootcamp.javabank.persistence.model.account.Account;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -9,6 +11,7 @@ import java.util.Optional;
 /**
  * An {@link AccountService} implementation
  */
+@Service
 public class AccountServiceImpl implements AccountService {
 
     private AccountDao accountDao;
@@ -18,6 +21,7 @@ public class AccountServiceImpl implements AccountService {
      *
      * @param accountDao the account DAO to set
      */
+    @Autowired
     public void setAccountDao(AccountDao accountDao) {
         this.accountDao = accountDao;
     }

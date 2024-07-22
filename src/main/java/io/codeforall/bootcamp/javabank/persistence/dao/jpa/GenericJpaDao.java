@@ -2,6 +2,8 @@ package io.codeforall.bootcamp.javabank.persistence.dao.jpa;
 
 import io.codeforall.bootcamp.javabank.persistence.dao.Dao;
 import io.codeforall.bootcamp.javabank.persistence.model.Model;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,6 +17,7 @@ import java.util.List;
  * @param <T> the model type
  * @see Dao
  */
+@Repository
 public abstract class GenericJpaDao<T extends Model> implements Dao<T> {
 
     protected Class<T> modelType;
@@ -35,6 +38,7 @@ public abstract class GenericJpaDao<T extends Model> implements Dao<T> {
      * @param em the entity manager to set
      */
     @PersistenceContext
+    @Autowired
     public void setEm(EntityManager em) {
         this.em = em;
     }
