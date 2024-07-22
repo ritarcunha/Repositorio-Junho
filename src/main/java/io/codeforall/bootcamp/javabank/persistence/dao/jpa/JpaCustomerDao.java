@@ -1,10 +1,14 @@
 package io.codeforall.bootcamp.javabank.persistence.dao.jpa;
 
-import io.codeforall.bootcamp.javabank.persistence.model.Customer;
 import io.codeforall.bootcamp.javabank.persistence.dao.CustomerDao;
+<<<<<<< HEAD
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+=======
+import io.codeforall.bootcamp.javabank.persistence.model.Customer;
+import org.springframework.stereotype.Repository;
+>>>>>>> a9c2c77bc56e61f0a8a0f6a825227f401a988522
 
 /**
  * A JPA {@link CustomerDao} implementation
@@ -17,13 +21,5 @@ public class JpaCustomerDao extends GenericJpaDao<Customer> implements CustomerD
      */
     public JpaCustomerDao() {
         super(Customer.class);
-    }
-
-    /**
-     * @see CustomerDao#getCustomerIds()
-     */
-    public List<Integer> getCustomerIds() {
-        return em.createQuery("select id from Customer", Integer.class)
-                .getResultList();
     }
 }

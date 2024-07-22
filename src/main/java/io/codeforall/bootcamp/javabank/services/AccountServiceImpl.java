@@ -1,7 +1,10 @@
 package io.codeforall.bootcamp.javabank.services;
 
-import io.codeforall.bootcamp.javabank.persistence.dao.AccountDao;
 import io.codeforall.bootcamp.javabank.persistence.model.account.Account;
+<<<<<<< HEAD
+=======
+import io.codeforall.bootcamp.javabank.persistence.dao.AccountDao;
+>>>>>>> a9c2c77bc56e61f0a8a0f6a825227f401a988522
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,15 +38,6 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * @see AccountService#add(Account)
-     */
-    @Transactional
-    @Override
-    public Integer add(Account account) {
-        return accountDao.saveOrUpdate(account).getId();
-    }
-
-    /**
      * @see AccountService#deposit(Integer, double)
      */
     @Transactional
@@ -52,7 +46,8 @@ public class AccountServiceImpl implements AccountService {
 
         Optional<Account> accountOptional = Optional.ofNullable(accountDao.findById(id));
 
-        accountOptional.orElseThrow(() -> new IllegalArgumentException("invalid account id")).credit(amount);
+        accountOptional.orElseThrow(() -> new IllegalArgumentException("invalid account id"))
+                .credit(amount);
 
         accountDao.saveOrUpdate(accountOptional.get());
     }

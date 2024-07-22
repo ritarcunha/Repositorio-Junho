@@ -1,10 +1,13 @@
 package io.codeforall.bootcamp.javabank.services;
 
-import io.codeforall.bootcamp.javabank.persistence.dao.CustomerDao;
 import io.codeforall.bootcamp.javabank.persistence.model.AbstractModel;
 import io.codeforall.bootcamp.javabank.persistence.model.Customer;
 import io.codeforall.bootcamp.javabank.persistence.model.Recipient;
 import io.codeforall.bootcamp.javabank.persistence.model.account.Account;
+<<<<<<< HEAD
+=======
+import io.codeforall.bootcamp.javabank.persistence.dao.CustomerDao;
+>>>>>>> a9c2c77bc56e61f0a8a0f6a825227f401a988522
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +56,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /**
+     * @see CustomerService#list()
+     */
+    @Override
+    public List<Customer> list() {
+        return customerDao.findAll();
+    }
+
+    /**
      * @see CustomerService#listCustomerAccountIds(Integer)
      */
     @Override
@@ -73,6 +84,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional(readOnly = true)
     @Override
     public List<Recipient> listRecipients(Integer id) {
+
+        // check then act logic requires transaction,
+        // event if read only
 
         Customer customer = Optional.ofNullable(customerDao.findById(id))
                 .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
